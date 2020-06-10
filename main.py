@@ -3,22 +3,16 @@
 import pyautogui
 import time
 
-
-def fileToSend(fileName):
-    file = open(fileName, "r")
-    return file
-
-def writeAndSendMessage(text, x, y):
-    pyautogui.click(x-100, y)
+def writeAndSendMessage(text):
     pyautogui.write(str(text))
-    pyautogui.click(x, y)
+    pyautogui.press('enter')
 
 def main():
     file = open("fileToSend", "r")
 
     #get mouse position
     x, y = pyautogui.position()
-    print(str(x) + " " + str(y))
+    pyautogui.click(x, y)
 
     #send messages
     for line in file:
@@ -26,7 +20,7 @@ def main():
         splittedLine = line.split(" ")
         print(splittedLine)
         for msg in splittedLine:
-            writeAndSendMessage(msg, x, y)
+            writeAndSendMessage(msg)
             time.sleep(0.5)
 
     file.close()
