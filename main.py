@@ -1,27 +1,49 @@
 #!/usr/bin/python
 
 import pyautogui
+import random
 import time
 
-def writeAndSendMessage(text):
-    pyautogui.write(str(text))
-    pyautogui.press('enter')
+def randomPhrase(fileOfWords):
+    listOfWords = []
+    for word in fileOfWords:
+        listOfWords.append(word.replace("\n", ""))
 
-def main():
-    file = open("fileToSend", "r")
+    lengthOfPhrase = random.randrange(5, 20)
 
-    #get mouse position
-    x, y = pyautogui.position()
-    pyautogui.click(x, y)
+    listLen = len(listOfWords)-1
+    string = ""
 
-    #send messages
+    for i in range(0, lengthOfPhrase):
+        pos = int(random.randrange(0, listLen))
+        string = string + listOfWords[pos] + " "
+    print(string)
+    writeAndSendMessage(string)
+
+def sendworldByWorldAFile(file):
+    # send messages
     for line in file:
         line = line.replace("\n", "")
         splittedLine = line.split(" ")
         print(splittedLine)
         for msg in splittedLine:
             writeAndSendMessage(msg)
-            time.sleep(0.5)
+            time.sleep(2)#delay tra un messaggio e l'altro
+
+def writeAndSendMessage(text):
+    pyautogui.write(str(text), 0.25)#scrive(messaggio, tempo di digitazione delle lettere)
+    pyautogui.press('enter')
+
+def main():
+    file = open("fileToSend", "r")
+    #file = open("paroleitaliane/1000_parole_italiane_comuni.txt", "r")
+
+    #get mouse position
+    x, y = pyautogui.position()
+    pyautogui.click(x, y)
+
+    sendworldByWorldAFile(file)
+    #randomPhrase(file)
 
     file.close()
 
