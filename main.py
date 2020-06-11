@@ -17,7 +17,7 @@ def randomPhrase(fileOfWords):
     for i in range(0, lengthOfPhrase):
         pos = int(random.randrange(0, listLen))
         string = string + listOfWords[pos] + " "
-    print(string)
+
     writeAndSendMessage(string)
 
 def sendworldByWorldAFile(file):
