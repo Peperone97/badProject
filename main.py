@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-import os
-import signal
 from subprocess import Popen
 import sys
 
@@ -15,8 +13,9 @@ def main():
 
     input()
 
-    os.kill(spamProcess.pid, signal.SIGTERM) #kill the process
+    spamProcess.terminate()
 
+    print(spamProcess.poll())
 
 if __name__ == "__main__":
     main()

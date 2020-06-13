@@ -34,5 +34,7 @@ def main():
 
     file.close()
 
+    print("Process terminated, press enter")
+
 if __name__ == "__main__":
     main()
