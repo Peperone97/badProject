@@ -1,7 +1,11 @@
-#!/usr/bin/python
-
 import pyautogui
 import time
+import signal
+import sys
+
+def signal_term_handler(signal, frame):
+    print("Terminated")
+    sys.exit(0)
 
 def writeAndSendMessage(text):
     pyautogui.write(str(text), 0.25)# write(message, time of typing)
@@ -20,9 +24,11 @@ def sendwordByWordAFile(file):
 def main():
     file = open("fileToSend", "r") #open file of spam
 
+    signal.signal(signal.SIGTERM, signal_term_handler)
+
     # get mouse position
     x, y = pyautogui.position()
-    pyautogui.click(x, y) #focus on the chat
+    pyautogui.click(x, y)  # focus on the chat
 
     sendwordByWordAFile(file)
 
