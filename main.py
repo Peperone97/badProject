@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+import os
+import signal
+from subprocess import Popen
+import sys
+
 import pyautogui
 import random
 import time
@@ -20,32 +25,32 @@ def randomPhrase(fileOfWords):
 
     writeAndSendMessage(string)
 
-def sendworldByWorldAFile(file):
-    # send messages
-    for line in file:
-        line = line.replace("\n", "")
-        splittedLine = line.split(" ")
-        print(splittedLine)
-        for msg in splittedLine:
-            writeAndSendMessage(msg)
-            time.sleep(2)#delay tra un messaggio e l'altro
-
 def writeAndSendMessage(text):
-    pyautogui.write(str(text), 0.25)#scrive(messaggio, tempo di digitazione delle lettere)
+    pyautogui.write(str(text), 0)#scrive(messaggio, tempo di digitazione delle lettere)
     pyautogui.press('enter')
 
 def main():
-    file = open("fileToSend", "r")
-    #file = open("paroleitaliane/1000_parole_italiane_comuni.txt", "r")
+    platform = sys.platform #get the system information
 
-    #get mouse position
-    x, y = pyautogui.position()
-    pyautogui.click(x, y)
+    print("Start, press enter to stop the process")
 
-    sendworldByWorldAFile(file)
-    #randomPhrase(file)
+    if(platform == "linux" or platform == "linux2"): #for linux
+        spamProcess = Popen("./spamFunction.py") #start the process
 
-    file.close()
+        input()
+
+        os.kill(spamProcess.pid, signal.SIGKILL) #kill the process
+
+    if(platform == "win32" or platform == "cygwin"): #for windows
+        spamProcess = Popen("python spamFunction.py") #start the process
+
+        input()
+
+        os.kill(spamProcess.pid, signal.SIGTERM) #kill the process
+
+    else:
+        print("NOOOOOOO")
+
 
 if __name__ == "__main__":
     main()
